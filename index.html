@@ -177,7 +177,7 @@ input[type=radio]{accent-color:var(--c1);width:17px;height:17px}
         <div class="fld"><label for="progetto" class="req">Il progetto, in due righe</label><textarea id="progetto" rows="3"></textarea></div>
         <div class="fld"><label for="passante">Cosa può fare il passante in uno o due minuti</label><textarea id="passante" rows="2"></textarea></div>
         <div class="row">
-          <div><label for="link" class="req">Link alla fonte (https)</label><input type="url" id="link" placeholder="https://"></div>
+          <div><label for="link">Link alla fonte</label><input type="text" id="link" placeholder="https://"></div>
           <div><label for="anno" class="req">Anno della fonte</label><input type="number" id="anno" min="2015" max="2030"></div>
         </div>
         <h3 class="sec">Quanto è forte il progetto: tre domande, da 1 a 5</h3>
@@ -209,14 +209,14 @@ $('#form').addEventListener('submit',async function(ev){
   ev.preventDefault();var m=$('#msg');m.className='msg';
   var v=function(id){return $('#'+id).value.trim()};
   var miss=[];
-  if(!v('coppia'))miss.push('la tua coppia');if(!v('ordine'))miss.push("l'ordine di scuola");if(!v('scuola'))miss.push('il nome della scuola');if(!v('comune'))miss.push('il comune della scuola');if(!v('titolo'))miss.push('il titolo');if(!v('progetto'))miss.push('il progetto');
-  if(!safeUrl(v('link')))miss.push('un link che inizi con https://');if(!v('anno'))miss.push("l'anno della fonte");
+  if(!v('coppia'))miss.push('il tuo nome');if(!v('ordine'))miss.push("l'ordine di scuola");if(!v('scuola'))miss.push('il nome della scuola');if(!v('comune'))miss.push('il comune della scuola');if(!v('titolo'))miss.push('il titolo');if(!v('progetto'))miss.push('il progetto');
+  if(!v('anno'))miss.push("l'anno della fonte");
   if(miss.length){m.className='msg err';m.textContent='Manca: '+miss.join(', ')+'.';return}
   if(words(v('pitch'))>75){m.className='msg err';m.textContent='La spiegazione in 30 secondi supera le 75 parole.';return}
   if(!/^https:\/\/script\.google\.com\//.test(ENDPOINT)){m.className='msg err';m.textContent='La pagina non è ancora collegata al foglio: avvisa chi conduce il corso.';return}
   ls('rbp_coppia',v('coppia'));
   var id='p'+Date.now().toString(36)+Math.random().toString(36).slice(2,5);
-  var doc={id:id,coppia:v('coppia'),ordine:v('ordine'),scuola:v('scuola'),comune:v('comune'),provincia:v('provincia'),codice:v('codice'),sito:safeUrl(v('sito')),titolo:v('titolo'),progetto:v('progetto'),passante:v('passante'),link:safeUrl(v('link')),anno:Number(v('anno')),potenziare:v('potenziare'),s1:S.sc.s1||'',s2:S.sc.s2||'',s3:S.sc.s3||'',pitch:v('pitch')};
+  var doc={id:id,coppia:v('coppia'),ordine:v('ordine'),scuola:v('scuola'),comune:v('comune'),provincia:v('provincia'),codice:v('codice'),sito:v('sito'),titolo:v('titolo'),progetto:v('progetto'),passante:v('passante'),link:v('link'),anno:Number(v('anno')),potenziare:v('potenziare'),s1:S.sc.s1||'',s2:S.sc.s2||'',s3:S.sc.s3||'',pitch:v('pitch')};
   $('#salva').disabled=true;m.textContent='Invio in corso…';
   var body=JSON.stringify(doc),ok=false,sure=true;
   try{
